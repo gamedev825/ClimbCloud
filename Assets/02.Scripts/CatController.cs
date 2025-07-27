@@ -13,7 +13,7 @@ public class CatController : MonoBehaviour
     Animator anim;
 
     //점프 구현
-    float jumpForce = 680.0f;
+    float jumpForce = 800.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +27,14 @@ public class CatController : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        // 플레이어 속도
+        float speedX = Mathf.Abs(rb.velocity.x);
+
+        float sppedY = Mathf.Abs(rb.velocity.y);
+
+        if (Input.GetKeyDown(KeyCode.Space) && sppedY == 0)
         {
+            anim.SetTrigger("Jump");
             rb.AddForce(transform.up * jumpForce);
         }
 
@@ -48,10 +54,7 @@ public class CatController : MonoBehaviour
 
         }
 
-        // 플레이어 속도
-        float speedX = Mathf.Abs(rb.velocity.x);
 
-        float sppedY = Mathf.Abs(rb.velocity.y);
 
 
 
@@ -84,6 +87,12 @@ public class CatController : MonoBehaviour
             
             //3. flip체크
         }
+
+        if (transform.position.y < -10)
+        {
+            SceneManager.LoadScene("GameScene");
+        }
+
 
         //플레이어의 속도에 맞춰 애니메이션 속도를 바꾼다
         anim.speed = speedX / 2.0f;
